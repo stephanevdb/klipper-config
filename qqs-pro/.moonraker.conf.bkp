@@ -1,0 +1,86 @@
+[server]
+host = 0.0.0.0
+port = 7125
+klippy_uds_address = /home/stephanevdb/printer_data/comms/klippy.sock
+
+[authorization]
+trusted_clients = 
+	10.20.0.0/16
+	10.0.0.0/8
+	127.0.0.0/8
+	169.254.0.0/16
+	172.16.0.0/12
+	192.168.0.0/16
+	FE80::/10
+	::1/128
+cors_domains = 
+	*.lan
+	*.local
+	*://localhost
+	*://localhost:*
+	*://my.mainsail.xyz
+	*://app.fluidd.xyz
+
+[octoprint_compat]
+
+[history]
+
+[update_manager]
+channel = dev
+refresh_interval = 168
+
+[update_manager fluidd-config]
+type = git_repo
+primary_branch = master
+path = ~/fluidd-config
+origin = https://github.com/fluidd-core/fluidd-config.git
+managed_services = klipper
+
+[update_manager fluidd]
+type = web
+channel = stable
+repo = fluidd-core/fluidd
+path = ~/fluidd
+
+[update_manager crowsnest]
+type = git_repo
+path = ~/crowsnest
+origin = https://github.com/mainsail-crew/crowsnest.git
+managed_services = crowsnest
+install_script = tools/pkglist.sh
+
+[update_manager mobileraker]
+type = git_repo
+path = /home/stephanevdb/mobileraker_companion
+origin = https://github.com/Clon1998/mobileraker_companion.git
+primary_branch = main
+managed_services = mobileraker
+env = /home/stephanevdb/mobileraker-env/bin/python
+requirements = scripts/mobileraker-requirements.txt
+install_script = scripts/install-mobileraker-companion.sh
+
+[power homeassistant_switch]
+type = homeassistant
+on_when_job_queued = True
+restart_klipper_when_powered = True
+restart_delay = 2.
+address = 10.20.1.4
+port = 8123
+device = switch.bedroom_qqs_pro
+token = xxxxxxxxxxxxxxxxdomain = switch
+
+[update_manager octoeverywhere]
+type = git_repo
+channel = beta
+path = /home/stephanevdb/octoeverywhere
+origin = https://github.com/QuinnDamerell/OctoPrint-OctoEverywhere.git
+env = /home/stephanevdb/octoeverywhere-env/bin/python
+requirements = requirements.txt
+install_script = install.sh
+managed_services = 
+	octoeverywhere
+
+[announcements]
+subscriptions = 
+	octoeverywhere
+
